@@ -18,8 +18,8 @@ public class Resposta {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
-    @OneToOne
-    @JoinColumn(name = "endereco_id")
+    @ManyToOne
+    @JoinColumn(name = "endereco_id", nullable = false)
     private Endereco endereco;
 
     @OneToOne
