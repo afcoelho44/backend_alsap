@@ -11,7 +11,7 @@ import java.util.List;
 
 @RestController
 @AllArgsConstructor
-@RequestMapping("api/Endereco")
+@RequestMapping("alsap/Endereco")
 public class EnderecoController {
 
     private EnderecoService service;

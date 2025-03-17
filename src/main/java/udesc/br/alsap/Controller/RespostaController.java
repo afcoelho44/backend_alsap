@@ -11,7 +11,7 @@ import java.util.List;
 
 @RestController
 @AllArgsConstructor
-@RequestMapping("api/Respostas")
+@RequestMapping("alsap/Respostas")
 public class RespostaController {
 
     private RespostaService service;

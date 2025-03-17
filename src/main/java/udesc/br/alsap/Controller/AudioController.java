@@ -12,7 +12,7 @@ import java.util.List;
 
 @RestController
 @AllArgsConstructor
-@RequestMapping("api/Audio")
+@RequestMapping("c/Audio")
 public class AudioController {
 
     private AudioService service;

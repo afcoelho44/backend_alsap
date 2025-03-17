@@ -11,7 +11,7 @@ import java.util.List;
 
 @RestController
 @AllArgsConstructor
-@RequestMapping("api/Questao")
+@RequestMapping("alsap/Questao")
 
 public class QuestaoController {
 
