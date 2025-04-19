@@ -1,5 +1,6 @@
 package udesc.br.alsap.Entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -27,6 +28,7 @@ public class Endereco {
     private Double longitude;
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "endereco")
+    @JsonIgnore
     private List<Resposta> respostas;
 
 }
