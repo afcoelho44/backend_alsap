@@ -14,5 +14,7 @@ public class NarrativaRequest {
     private String sexo;
     private String escolaridade;
     private String local;
+    private String transcricao;
+    private String resumo;
     private Long audio_id;
 }

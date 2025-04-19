@@ -19,6 +19,11 @@ public class Narrativa {
     private String escolaridade;
     private String local;
 
+    @Column(columnDefinition = "TEXT")
+    private String transcricao;
+
+    private String titulo;
+
     @OneToOne
     @JoinColumn(name = "audio_id")
     private Audio audio;

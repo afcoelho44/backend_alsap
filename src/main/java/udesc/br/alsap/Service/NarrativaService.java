@@ -29,6 +29,10 @@ public class NarrativaService {
     public ResponseEntity<Long> createNarrativa(NarrativaRequest request) {
         var entity = new Narrativa();
         entity = new NarrativaRequestToEntity().map(request);
+        String cidade = request.getLocal().split("-")[0].trim();
+        long quantidade = repositoryNarrativa.countByCidade(cidade)+1;
+        String titulo = String.format("Narrativa - %s - %02d", cidade.toUpperCase(), quantidade);
+        entity.setTitulo(titulo);
         var audio = audioRepository.findById(request.getAudio_id()).orElseThrow(RuntimeException::new);
         entity.setAudio(audio);
         var id = repositoryNarrativa.save(entity).getId();

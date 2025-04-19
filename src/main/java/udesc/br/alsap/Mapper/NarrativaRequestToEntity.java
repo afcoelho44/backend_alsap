@@ -8,21 +8,23 @@ public class NarrativaRequestToEntity implements InternMapper<Narrativa, Narrati
     @Override
     public Narrativa map(NarrativaRequest request) {
         var record = new Narrativa();
-        record.setNome(record.getNome());
-        record.setIdade(record.getIdade());
-        record.setSexo(record.getSexo());
-        record.setEscolaridade(record.getEscolaridade());
-        record.setLocal(record.getLocal());
+        record.setNome(request.getNome());
+        record.setIdade(request.getIdade());
+        record.setSexo(request.getSexo());
+        record.setEscolaridade(request.getEscolaridade());
+        record.setLocal(request.getLocal());
+        record.setTranscricao(request.getTranscricao());
         return record;
     }
 
     @Override
     public Narrativa mapUpdate(NarrativaRequest request, Narrativa record) {
-        record.setNome(record.getNome());
-        record.setIdade(record.getIdade());
-        record.setSexo(record.getSexo());
-        record.setEscolaridade(record.getEscolaridade());
-        record.setLocal(record.getLocal());
+        record.setNome(request.getNome());
+        record.setIdade(request.getIdade());
+        record.setSexo(request.getSexo());
+        record.setEscolaridade(request.getEscolaridade());
+        record.setLocal(request.getLocal());
+        record.setTranscricao(request.getTranscricao());
         return record;
     }
 }
