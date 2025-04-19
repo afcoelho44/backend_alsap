@@ -1,15 +1,16 @@
 package udesc.br.alsap.Entity;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
+import java.util.HashSet;
 import java.util.Set;
 
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
+@EqualsAndHashCode(exclude = "respostas")
+@ToString(exclude = "respostas")
 @Entity
 public class Questao {
     @Id
@@ -24,5 +25,5 @@ public class Questao {
             joinColumns = @JoinColumn(name = "questao_id"),
             inverseJoinColumns = @JoinColumn(name = "resposta_id")
     )
-    private Set<Resposta> respostas;
+    private Set<Resposta> respostas =new HashSet<>();
 }

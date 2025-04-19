@@ -2,15 +2,16 @@ package udesc.br.alsap.Entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
+import java.util.HashSet;
 import java.util.Set;
 
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
+@EqualsAndHashCode(exclude = "questoes")
+@ToString(exclude = "questoes")
 @Entity
 
 public class Resposta {
@@ -28,5 +29,5 @@ public class Resposta {
 
     @ManyToMany(mappedBy = "respostas")
     @JsonIgnore
-    private Set<Questao> questoes;
+    private Set<Questao> questoes = new HashSet<>();
 }

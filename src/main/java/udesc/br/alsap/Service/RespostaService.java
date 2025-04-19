@@ -4,6 +4,7 @@ import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import udesc.br.alsap.Entity.Questao;
 import udesc.br.alsap.Entity.Resposta;
 import udesc.br.alsap.Model.RespostaRequest;
 import udesc.br.alsap.Repository.AudioRepository;
@@ -39,6 +40,14 @@ public class RespostaService {
         var entity = new Resposta();
         entity = respostaRequestToEntity(request, entity);
         var id = respostaRepository.save(entity).getId();
+        try {
+            var questao = questaoRepository.findById(request.getQuestao_id()).orElseThrow(RuntimeException::new);
+            questao.getRespostas().add(entity);
+            entity.getQuestoes().add(questao);
+            questaoRepository.save(questao);
+        }catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
         return new ResponseEntity<>(id, HttpStatus.CREATED);
     }
 
@@ -54,17 +63,18 @@ public class RespostaService {
         var endereco = enderecoRepository.findById(request.getEndereco_id()).orElseThrow(RuntimeException::new);
         record.setAudio(audio);
         record.setEndereco(endereco);
-        try {
-            var questao = questaoRepository.findById(request.getQuestao_id()).orElseThrow(RuntimeException::new);
-            questao.getRespostas().add(record);
-        }catch (Exception e) {
-            System.out.println(e.getMessage());
-        }
         return record;
     }
 
     public ResponseEntity<Void> deleteResposta(Long id) {
+        var resposta = respostaRepository.findById(id).orElseThrow(() -> new RuntimeException("Resposta não encontrada"));
+
+        for (Questao questao : resposta.getQuestoes()) {
+            questao.getRespostas().remove(resposta);
+        }
+
         respostaRepository.deleteById(id);
+
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 
