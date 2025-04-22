@@ -26,4 +26,15 @@ public class Questao {
             inverseJoinColumns = @JoinColumn(name = "resposta_id")
     )
     private Set<Resposta> respostas =new HashSet<>();
+
+    public void adicionarResposta(Resposta resposta) {
+        this.respostas.add(resposta);
+        resposta.getQuestoes().add(this);
+    }
+
+    public void removerResposta(Resposta resposta) {
+        this.respostas.remove(resposta);
+        resposta.getQuestoes().remove(this);
+    }
+
 }

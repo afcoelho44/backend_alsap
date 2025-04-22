@@ -5,6 +5,9 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.HashSet;
+import java.util.Set;
+
 @Entity
 @Data
 @NoArgsConstructor
@@ -24,7 +27,6 @@ public class Narrativa {
 
     private String titulo;
 
-    @OneToOne
-    @JoinColumn(name = "audio_id")
-    private Audio audio;
+    @OneToMany(mappedBy = "narrativa", cascade = CascadeType.ALL, orphanRemoval = true)
+    private Set<Audio> audios = new HashSet<>();
 }

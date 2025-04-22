@@ -23,8 +23,6 @@ public class RespostaService {
 
     private QuestaoRepository questaoRepository;
 
-    private AudioRepository audioRepository;
-
     private EnderecoRepository enderecoRepository;
 
     public ResponseEntity<List<Resposta>> getAllRespostas() {
@@ -38,13 +36,12 @@ public class RespostaService {
 
     public ResponseEntity<Long> createResposta(RespostaRequest request) {
         var entity = new Resposta();
-        entity = respostaRequestToEntity(request, entity);
+        var endereco = enderecoRepository.findById(request.getEndereco_id()).orElseThrow(RuntimeException::new);
+        var questao = questaoRepository.findById(request.getQuestao_id()).orElseThrow(RuntimeException::new);
+        entity.setEndereco(endereco);
         var id = respostaRepository.save(entity).getId();
         try {
-            var questao = questaoRepository.findById(request.getQuestao_id()).orElseThrow(RuntimeException::new);
-            questao.getRespostas().add(entity);
-            entity.getQuestoes().add(questao);
-            questaoRepository.save(questao);
+            vincularRespostaAQuestao(questao.getId(), id);
         }catch (Exception e) {
             System.out.println(e.getMessage());
         }
@@ -53,30 +50,51 @@ public class RespostaService {
 
     public ResponseEntity<Resposta> updateResposta(Long id, RespostaRequest request) {
         var record = respostaRepository.findById(id).orElseThrow(RuntimeException::new);
-        record = respostaRequestToEntity(request, record);
+        var endereco = enderecoRepository.findById(request.getEndereco_id()).orElseThrow(RuntimeException::new);
+        var questao_nova = questaoRepository.findById(request.getQuestao_id()).orElseThrow(RuntimeException::new);
+        for (Questao questao : record.getQuestoes()) {
+            desvincularRespostaDeQuestao(questao.getId(), record.getId());
+        }
+        vincularRespostaAQuestao(questao_nova.getId(), id);
+        record.setEndereco(endereco);
         respostaRepository.save(record);
         return new ResponseEntity<>(record, HttpStatus.OK);
-    }
-
-    private Resposta respostaRequestToEntity(RespostaRequest request, Resposta record) {
-        var audio = audioRepository.findById(request.getAudio_id()).orElseThrow(RuntimeException::new);
-        var endereco = enderecoRepository.findById(request.getEndereco_id()).orElseThrow(RuntimeException::new);
-        record.setAudio(audio);
-        record.setEndereco(endereco);
-        return record;
     }
 
     public ResponseEntity<Void> deleteResposta(Long id) {
         var resposta = respostaRepository.findById(id).orElseThrow(() -> new RuntimeException("Resposta não encontrada"));
 
         for (Questao questao : resposta.getQuestoes()) {
-            questao.getRespostas().remove(resposta);
+            desvincularRespostaDeQuestao(questao.getId(), resposta.getId());
         }
 
         respostaRepository.deleteById(id);
 
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
+
+    public void vincularRespostaAQuestao(Long questaoId, Long respostaId) {
+        var questao = questaoRepository.findById(questaoId)
+                .orElseThrow(() -> new RuntimeException("Questão não encontrada"));
+
+        var resposta = respostaRepository.findById(respostaId)
+                .orElseThrow(() -> new RuntimeException("Resposta não encontrada"));
+
+        questao.adicionarResposta(resposta);
+        questaoRepository.save(questao);
+    }
+
+    public void desvincularRespostaDeQuestao(Long questaoId, Long respostaId) {
+        var questao = questaoRepository.findById(questaoId)
+                .orElseThrow(() -> new RuntimeException("Questão não encontrada"));
+
+        var resposta = respostaRepository.findById(respostaId)
+                .orElseThrow(() -> new RuntimeException("Resposta não encontrada"));
+
+        questao.removerResposta(resposta);
+        questaoRepository.save(questao);
+    }
+
 
 
 }

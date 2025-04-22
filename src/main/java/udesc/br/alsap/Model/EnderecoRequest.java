@@ -9,7 +9,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class EnderecoRequest {
 
-    private String Cidade;
+    private String nome_cidade;
 
     private String cep;
 

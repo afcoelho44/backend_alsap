@@ -8,6 +8,8 @@ import udesc.br.alsap.Entity.Audio;
 import udesc.br.alsap.Mapper.AudioResquestToEntity;
 import udesc.br.alsap.Model.AudioRequest;
 import udesc.br.alsap.Repository.AudioRepository;
+import udesc.br.alsap.Repository.NarrativaRepository;
+import udesc.br.alsap.Repository.RespostaRepository;
 
 import java.util.List;
 
@@ -15,29 +17,53 @@ import java.util.List;
 @AllArgsConstructor
 public class AudioService {
 
-    private AudioRepository repository;
+    private AudioRepository audioRepository;
+    private RespostaRepository respostaRepository;
+    private NarrativaRepository narrativaRepository;
 
-    public ResponseEntity<List<Audio>> getAllAudios() { return new ResponseEntity<>(repository.findAll(), HttpStatus.OK); }
+    public ResponseEntity<List<Audio>> getAllAudios() { return new ResponseEntity<>(audioRepository.findAll(), HttpStatus.OK); }
 
     public ResponseEntity<Audio> getAudioById(Long id){
-        var response = repository.findById(id).orElseThrow(RuntimeException::new);
+        var response = audioRepository.findById(id).orElseThrow(RuntimeException::new);
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
     public ResponseEntity<Long> createAudio(AudioRequest request){
         var entity = new AudioResquestToEntity().map(request);
-        var id = repository.save(entity).getId();
+        if (request.getResposta_id() != null) {
+            var resposta = respostaRepository.findById(request.getResposta_id()).orElseThrow(RuntimeException::new);
+            entity.setResposta(resposta);
+        }
+
+        if (request.getNarrativa_id() != null) {
+            var narrativa = narrativaRepository.findById(request.getNarrativa_id()).orElseThrow(RuntimeException::new);
+            entity.setNarrativa(narrativa);
+        }
+        var id = audioRepository.save(entity).getId();
 
         return new ResponseEntity<>(id, HttpStatus.OK);
     }
     public ResponseEntity<Audio> updateAudio(Long id, AudioRequest request){
-        var record = repository.findById(id).orElseThrow(RuntimeException::new);
+        var record = audioRepository.findById(id).orElseThrow(RuntimeException::new);
         record = new AudioResquestToEntity().mapUpdate(request, record);
+        if (request.getResposta_id() != null) {
+            var resposta = respostaRepository.findById(request.getResposta_id()).orElseThrow(() -> new RuntimeException("Resposta não encontrada"));
+            record.setResposta(resposta);
+        }else if (request.getNarrativa_id()!= null) {
+            var narrativa = narrativaRepository.findById(request.getNarrativa_id()).orElseThrow(() -> new RuntimeException("Resposta não encontrada"));
+            record.setNarrativa(narrativa);
+        }
 
-        repository.save(record);
+        audioRepository.save(record);
         return new ResponseEntity<>(record, HttpStatus.OK);
     }
     public ResponseEntity<Void> deleteAudio(Long id){
-        repository.deleteById(id);
+        var audio = audioRepository.findById(id).orElseThrow(() -> new RuntimeException("Áudio não encontrado"));
+
+        var resposta = audio.getResposta();
+        resposta.getAudios().remove(audio);
+
+        respostaRepository.save(resposta);
+        audioRepository.deleteById(id);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 

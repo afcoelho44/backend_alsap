@@ -23,11 +23,21 @@ public class Resposta {
     @JoinColumn(name = "endereco_id", nullable = false)
     private Endereco endereco;
 
-    @OneToOne
-    @JoinColumn(name = "audio_id")
-    private Audio audio;
+    @OneToMany(mappedBy = "resposta_id", cascade = CascadeType.ALL, orphanRemoval = true)
+    private Set<Audio> audios = new HashSet<>();
 
     @ManyToMany(mappedBy = "respostas")
     @JsonIgnore
     private Set<Questao> questoes = new HashSet<>();
+
+    public void adicionarQuestao(Questao questao) {
+        this.questoes.add(questao);
+        questao.getRespostas().add(this);
+    }
+
+    public void removerQuestao(Questao questao) {
+        this.questoes.remove(questao);
+        questao.getRespostas().remove(this);
+    }
+
 }

@@ -7,6 +7,7 @@ public class AudioResquestToEntity implements InternMapper<Audio, AudioRequest>{
     @Override
     public Audio map(AudioRequest request) {
         var record = new Audio();
+        record.setNome(request.getNome());
         record.setAudio_url(request.getAudio_url());
         record.setTranscricao(request.getTranscricao());
         return record;
@@ -14,6 +15,7 @@ public class AudioResquestToEntity implements InternMapper<Audio, AudioRequest>{
 
     @Override
     public Audio mapUpdate(AudioRequest request, Audio record) {
+        record.setNome(request.getNome());
         record.setAudio_url(request.getAudio_url());
         record.setTranscricao(request.getTranscricao());
         return record;

@@ -33,16 +33,20 @@ public class NarrativaService {
         long quantidade = repositoryNarrativa.countByCidade(cidade)+1;
         String titulo = String.format("Narrativa - %s - %02d", cidade.toUpperCase(), quantidade);
         entity.setTitulo(titulo);
-        var audio = audioRepository.findById(request.getAudio_id()).orElseThrow(RuntimeException::new);
-        entity.setAudio(audio);
+        if (request.getAudio_id() != null) {
+            var audio = audioRepository.findById(request.getAudio_id()).orElseThrow(() -> new RuntimeException("Áudio não encontrado"));
+            entity.getAudios().add(audio); // Adicionando o áudio à narrativa
+        }
         var id = repositoryNarrativa.save(entity).getId();
         return new ResponseEntity<>(id, HttpStatus.CREATED);
     }
     public ResponseEntity<Narrativa> updateNarrativa(Long id, NarrativaRequest request) {
         var record = repositoryNarrativa.findById(id).orElseThrow(RuntimeException::new);
         record = new NarrativaRequestToEntity().mapUpdate(request, record);
-        var audio = audioRepository.findById(request.getAudio_id()).orElseThrow(RuntimeException::new);
-        record.setAudio(audio);
+        if (request.getAudio_id() != null) {
+            var audio = audioRepository.findById(request.getAudio_id()).orElseThrow(() -> new RuntimeException("Áudio não encontrado"));
+            record.getAudios().add(audio); // Adicionando o áudio à narrativa
+        }
         repositoryNarrativa.save(record);
         return new ResponseEntity<>(record, HttpStatus.OK);
     }

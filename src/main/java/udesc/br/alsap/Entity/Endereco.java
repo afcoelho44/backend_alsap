@@ -19,16 +19,12 @@ public class Endereco {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
-    private String Cidade;
+    private String nome_cidade;
 
     private String cep;
 
     private Double latitude;
 
     private Double longitude;
-
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "endereco")
-    @JsonIgnore
-    private List<Resposta> respostas;
 
 }

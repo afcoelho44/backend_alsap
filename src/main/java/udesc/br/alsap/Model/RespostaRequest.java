@@ -9,6 +9,5 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class RespostaRequest {
     private Long endereco_id;
-    private Long audio_id;
     private Long questao_id;
 }

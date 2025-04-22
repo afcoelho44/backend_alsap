@@ -1,9 +1,6 @@
 package udesc.br.alsap.Entity;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -16,7 +13,16 @@ public class Audio {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
+    private String nome;
     private String transcricao;
     private String audio_url;
+
+    @ManyToOne
+    @JoinColumn(name = "resposta_id", nullable = true)
+    private Resposta resposta;
+
+    @ManyToOne
+    @JoinColumn(name = "narrativa_id", nullable = true)
+    private Narrativa narrativa;
 
 }
