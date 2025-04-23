@@ -1,6 +1,7 @@
 package udesc.br.alsap.Entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -10,8 +11,8 @@ import java.util.Set;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-@EqualsAndHashCode(exclude = "questoes")
-@ToString(exclude = "questoes")
+@EqualsAndHashCode(exclude = {"questoes", "audios"})
+@ToString(exclude = {"questoes", "audios"})
 @Entity
 
 public class Resposta {
@@ -23,7 +24,8 @@ public class Resposta {
     @JoinColumn(name = "endereco_id", nullable = false)
     private Endereco endereco;
 
-    @OneToMany(mappedBy = "resposta_id", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "resposta", cascade = CascadeType.ALL, orphanRemoval = true)
+    @JsonManagedReference(value = "respostaRef")
     private Set<Audio> audios = new HashSet<>();
 
     @ManyToMany(mappedBy = "respostas")

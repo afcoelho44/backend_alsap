@@ -1,11 +1,14 @@
 package udesc.br.alsap.Entity;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 @Entity
@@ -28,5 +31,6 @@ public class Narrativa {
     private String titulo;
 
     @OneToMany(mappedBy = "narrativa", cascade = CascadeType.ALL, orphanRemoval = true)
-    private Set<Audio> audios = new HashSet<>();
+    @JsonManagedReference(value = "narrativaRef")
+    private List<Audio> audios;
 }

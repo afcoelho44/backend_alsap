@@ -1,5 +1,7 @@
 package udesc.br.alsap.Entity;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -18,11 +20,13 @@ public class Audio {
     private String audio_url;
 
     @ManyToOne
-    @JoinColumn(name = "resposta_id", nullable = true)
+    @JoinColumn(name = "resposta", nullable = true)
+    @JsonBackReference(value = "respostaRef")
     private Resposta resposta;
 
     @ManyToOne
-    @JoinColumn(name = "narrativa_id", nullable = true)
+    @JoinColumn(name = "narrativa", nullable = true)
+    @JsonBackReference(value = "narrativaRef")
     private Narrativa narrativa;
 
 }
