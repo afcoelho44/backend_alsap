@@ -12,6 +12,7 @@ public class AudioRequest {
     private String nome;
     private String transcricao;
     private String audio_url;
+    private int tipo;
     private Long resposta_id;
     private Long narrativa_id;
 

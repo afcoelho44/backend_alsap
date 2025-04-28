@@ -10,6 +10,7 @@ public class AudioResquestToEntity implements InternMapper<Audio, AudioRequest>{
         record.setNome(request.getNome());
         record.setAudio_url(request.getAudio_url());
         record.setTranscricao(request.getTranscricao());
+        record.setTipo(request.getTipo());
         return record;
     }
 
@@ -18,6 +19,7 @@ public class AudioResquestToEntity implements InternMapper<Audio, AudioRequest>{
         record.setNome(request.getNome());
         record.setAudio_url(request.getAudio_url());
         record.setTranscricao(request.getTranscricao());
+        record.setTipo(request.getTipo());
         return record;
     }
 }

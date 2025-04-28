@@ -8,7 +8,7 @@ public class EnderecoRequestToEntity implements InternMapper<Endereco, EnderecoR
     public Endereco map(EnderecoRequest request) {
         var record = new Endereco();
         record.setCep(request.getCep());
-        record.setNome_cidade(request.getNome_cidade());
+        record.setNome(request.getNome());
         record.setLatitude(request.getLatitude());
         record.setLongitude(request.getLongitude());
 
@@ -18,7 +18,7 @@ public class EnderecoRequestToEntity implements InternMapper<Endereco, EnderecoR
     @Override
     public Endereco mapUpdate(EnderecoRequest request, Endereco record) {
         record.setCep(request.getCep());
-        record.setNome_cidade(request.getNome_cidade());
+        record.setNome(request.getNome());
         record.setLatitude(request.getLatitude());
         record.setLongitude(request.getLongitude());
         return record;
