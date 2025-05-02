@@ -5,6 +5,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import udesc.br.alsap.Entity.Questao;
 import udesc.br.alsap.Model.QuestaoRequest;
+import udesc.br.alsap.Model.QuestaoResumo;
 import udesc.br.alsap.Service.QuestaoService;
 
 import java.util.List;
@@ -41,4 +42,10 @@ public class QuestaoController {
     public ResponseEntity<Void> deleteQuestao(@PathVariable Long id){
         return service.deleteAudio(id);
     }
+
+    @GetMapping("/tipo/qff")
+    public ResponseEntity<List<QuestaoResumo>> getQuestoesQFF() {
+        return service.getQuestoesQFF();
+    }
+
 }

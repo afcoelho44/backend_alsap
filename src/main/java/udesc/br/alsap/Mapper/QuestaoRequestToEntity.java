@@ -9,12 +9,14 @@ public class QuestaoRequestToEntity implements InternMapper<Questao, QuestaoRequ
     public Questao map(QuestaoRequest request) {
         var record = new Questao();
         record.setDescricao(request.getDescricao());
+        record.setTipo(request.getTipo());
         return record;
     }
 
     @Override
     public Questao mapUpdate(QuestaoRequest request, Questao record) {
         record.setDescricao(request.getDescricao());
+        record.setTipo(request.getTipo());
         return record;
     }
 }

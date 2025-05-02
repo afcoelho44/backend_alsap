@@ -19,6 +19,8 @@ public class Questao {
 
     private String descricao;
 
+    private String tipo;
+
     @ManyToMany
     @JoinTable(
             name = "questao_resposta",

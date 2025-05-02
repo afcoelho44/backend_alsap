@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 import udesc.br.alsap.Entity.Questao;
 import udesc.br.alsap.Mapper.QuestaoRequestToEntity;
 import udesc.br.alsap.Model.QuestaoRequest;
+import udesc.br.alsap.Model.QuestaoResumo;
 import udesc.br.alsap.Repository.QuestaoRepository;
 
 import java.util.List;
@@ -42,4 +43,12 @@ public class QuestaoService {
         repository.deleteById(id);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
+    public ResponseEntity<List<QuestaoResumo>> getQuestoesQFF() {
+        var questoesQFF = repository.findByTipo("QFF");
+        var resumoList = questoesQFF.stream()
+                .map(q -> new QuestaoResumo(q.getId(), q.getDescricao()))
+                .toList();
+        return new ResponseEntity<>(resumoList, HttpStatus.OK);
+    }
+
 }
