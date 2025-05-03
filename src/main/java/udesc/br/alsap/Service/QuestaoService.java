@@ -50,5 +50,12 @@ public class QuestaoService {
                 .toList();
         return new ResponseEntity<>(resumoList, HttpStatus.OK);
     }
+    public ResponseEntity<List<QuestaoResumo>> getQuestoesQSL() {
+        var questoesQSL = repository.findByTipo("QSL");
+        var resumoList = questoesQSL.stream()
+                .map(q -> new QuestaoResumo(q.getId(), q.getDescricao()))
+                .toList();
+        return new ResponseEntity<>(resumoList, HttpStatus.OK);
+    }
 
 }

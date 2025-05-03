@@ -47,5 +47,8 @@ public class QuestaoController {
     public ResponseEntity<List<QuestaoResumo>> getQuestoesQFF() {
         return service.getQuestoesQFF();
     }
-
+    @GetMapping("/tipo/qsl")
+    public ResponseEntity<List<QuestaoResumo>> getQuestoesQSL() {
+        return service.getQuestoesQSL();
+    }
 }
