@@ -40,7 +40,7 @@ src/
 │   └── mapper/        # Conversão entre entidades e DTOs
 └── resources/
     └── application.properties
-
+```
 
 A biblioteca **Lombok** é utilizada para reduzir a verbosidade do código (getters, setters, construtores automáticos).
 
