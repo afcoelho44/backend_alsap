@@ -27,17 +27,19 @@ O **backend** foi projetado para dar suporte a essas funcionalidades, oferecendo
 ## 🧩 Estrutura do Projeto
 
 O backend segue o padrão **Model–View–Controller (MVC)**, organizado em camadas independentes:
+
+```bash
 src/
 ├── main/java/br/udesc/alsap/
-│ ├── config/ # Configurações globais (CORS, exceções, etc.)
-│ ├── controller/ # Endpoints da API
-│ ├── service/ # Lógica de negócio
-│ ├── repository/ # Comunicação com o banco (Spring Data JPA)
-│ ├── entity/ # Entidades do banco (mapeadas via JPA)
-│ ├── model/ # DTOs para transporte de dados
-│ └── mapper/ # Conversão entre entidades e DTOs
+│   ├── config/        # Configurações globais (CORS, exceções, etc.)
+│   ├── controller/    # Endpoints da API
+│   ├── service/       # Lógica de negócio
+│   ├── repository/    # Comunicação com o banco (Spring Data JPA)
+│   ├── entity/        # Entidades do banco (mapeadas via JPA)
+│   ├── model/         # DTOs para transporte de dados
+│   └── mapper/        # Conversão entre entidades e DTOs
 └── resources/
-└── application.properties
+    └── application.properties
 
 
 A biblioteca **Lombok** é utilizada para reduzir a verbosidade do código (getters, setters, construtores automáticos).
